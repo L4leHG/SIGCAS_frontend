@@ -22,18 +22,18 @@ export default function Login() {
   };
 
   const handleLogin = async () => {
-    const error = validateEmail(email);
-    if (error) {
-      setEmailError(error);
-      Notification.error(error);
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setEmailError(emailError);
+      Notification.error(emailError);
       return;
     }
 
-    const success = await loginUser(email, password);
-    if (success) {
+    const result = await loginUser(email, password);
+    if (result.success) {
       navigate("/dashboard");
     } else {
-      Notification.error("Credenciales inválidas");
+      Notification.error(result.message);
     }
   };
 

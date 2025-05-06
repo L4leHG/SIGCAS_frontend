@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://github.com/L4leHG/SIGCAS_backend.git', // cambia esto por tu URL real
+  baseURL: 'http://localhost:8500', // cambia esto por tu URL real
   withCredentials: true, // 🔐 para enviar cookies automáticamente
   headers: {
     'Content-Type': 'application/json',

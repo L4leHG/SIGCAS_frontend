@@ -1,15 +1,20 @@
 import api from '../api/axios'
 
-export async function loginUser(username, password) {
+export async function loginUser(email, password) {
   try {
     const response = await api.post('/api/token/', {
-      username,
+      email,
       password,
     })
-    return response.status === 200
+    // Podés guardar la sesión
+    const { username: name, roles } = response.data
+    localStorage.setItem('user', JSON.stringify({ name, roles }))
+    return { success: true, data: response.data }
   } catch (error) {
-    console.error('Error al hacer login:', error)
-    return false
+    const msg =
+      error?.response?.data?.detail ||
+      'Error desconocido al iniciar sesión'
+    return { success: false, message: msg }
   }
 }
 
