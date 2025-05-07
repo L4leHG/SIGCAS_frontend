@@ -38,7 +38,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center flex items-center justify-center">
+    <div className="min-h-screen bg-cover bg-center flex items-center justify-center"
+    style={{
+      backgroundImage: `url('/catastro2.webp')`,
+    }}
+    >
       <div className="w-1/2 max-w-sm bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-6">Inicia sesión</h2>
         <div className="pb-6">
