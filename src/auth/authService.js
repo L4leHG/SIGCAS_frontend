@@ -27,3 +27,15 @@ export async function logoutUser() {
     return false
   }
 }
+
+export async function buscarPredio(npn) {
+  try {
+    const response = await api.get('/catastro/detalle_predios/', {
+      params: { numero_predial_nacional: npn },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al buscar predio:', error);
+    throw error;
+  }
+}

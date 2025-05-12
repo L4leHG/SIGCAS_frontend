@@ -4,6 +4,7 @@ import Login from "../auth/login";
 import { Dashboard } from "../dashboard";
 import Layout from "../dashboard/layout/Layout";
 import Consulta from "../dashboard/consulta";
+import Tramites from "../dashboard/tramites";
 
 export function RoutesApp() {
   return (
@@ -12,7 +13,7 @@ export function RoutesApp() {
       <Route path="/" element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="consulta" element={<Consulta />} />
-        {/* <Route path="tramites" element={<Tramites />} /> */}
+        <Route path="tramites" element={<Tramites />} />
       </Route>
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
