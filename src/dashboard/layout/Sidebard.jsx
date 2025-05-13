@@ -1,4 +1,4 @@
-import { FaBars, FaHome, FaChartBar, FaClipboardList } from "react-icons/fa"
+import { FaBars, FaHome, FaChartBar, FaClipboardList, FaPaperPlane } from "react-icons/fa"
 import { Link, useLocation } from "react-router-dom"
 
 export default function Sidebar({ isOpen, toggle }) {
@@ -8,6 +8,7 @@ export default function Sidebar({ isOpen, toggle }) {
     { to: "/dashboard", label: "Panel de Inicio", icon: <FaHome /> },
     { to: "/consulta", label: "Consulta", icon: <FaChartBar /> },
     { to: "/tramites", label: "Trámites", icon: <FaClipboardList /> },
+    { to: "/radicar", label: "Radicar", icon: <FaPaperPlane /> },
   ]
 
   return (
