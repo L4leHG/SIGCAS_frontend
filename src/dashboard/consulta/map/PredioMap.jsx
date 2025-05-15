@@ -104,7 +104,7 @@ const PredioMap = (props) => {
         >
           <WMSTileLayer
             url="http://localhost:8082/geoserver/cartografia/wms?service"
-            layers="catastral:geovisor_terreno_sicam"
+            layers="cartografia:terrenos_view"
             format="image/png"
             transparent={true}
             version="1.3.0"
@@ -141,7 +141,7 @@ const PredioMap = (props) => {
       {(unidadesReproyectadas?.length > 0 || terreno_geo) && (
         <WMSTileLayer
           url="http://localhost:8082/geoserver/cartografia/wms?service"
-          layers="catastral:geovisor_terreno_sicam"
+          layers="cartografia:terrenos_view"
           format="image/png"
           transparent={true}
           version="1.3.0" // O la versión que requiera tu servicio WMS
