@@ -103,7 +103,7 @@ const PredioMap = (props) => {
           checked={false} // no activado por defecto
         >
           <WMSTileLayer
-            url="https://geoserver.valleavanza.com/geoserver/catastral/wms?"
+            url="http://localhost:8082/geoserver/cartografia/wms?service"
             layers="catastral:geovisor_terreno_sicam"
             format="image/png"
             transparent={true}
@@ -140,7 +140,7 @@ const PredioMap = (props) => {
       </LayersControl>
       {(unidadesReproyectadas?.length > 0 || terreno_geo) && (
         <WMSTileLayer
-          url="https://geoserver.valleavanza.com/geoserver/catastral/wms?"
+          url="http://localhost:8082/geoserver/cartografia/wms?service"
           layers="catastral:geovisor_terreno_sicam"
           format="image/png"
           transparent={true}
