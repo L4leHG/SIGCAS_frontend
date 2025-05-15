@@ -33,13 +33,11 @@ const PredioMap = (props) => {
     allFeatures.push(...unidadesReproyectadas.map((u) => u.geometria));
   }
 
-  const allGeoData = {type: "FeatureCollection", features: allFeatures};
+  const allGeoData = { type: "FeatureCollection", features: allFeatures };
 
   const mapKey = useMemo(() => {
-    if (!allGeoData.features.length) return 'static';
-    return JSON.stringify(allGeoData);
-  }, [allGeoData]);
-
+    return JSON.stringify(props.detailPredio);
+  }, [props.detailPredio]);
 
   const getStyleByPiso = (feature) => {
     const piso = feature.unidadesOriginal?.planta_ubicacion;
@@ -90,10 +88,10 @@ const PredioMap = (props) => {
         {unidadesReproyectadas.map((unidad, index) =>
           unidad.geometria ? (
             <LayerConsulta
-                key={index}
-                data={unidad.geometria}
-                fitOnLoad={false}
-              />
+              key={index}
+              data={unidad.geometria}
+              fitOnLoad={false}
+            />
           ) : null
         )}
       </>
