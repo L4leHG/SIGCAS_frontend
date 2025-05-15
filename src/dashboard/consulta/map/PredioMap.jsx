@@ -57,7 +57,7 @@ const PredioMap = (props) => {
   return (
     <MapContainer
       key={mapKey} // Forzar rerender cuando cambian geometrías
-      center={[4.5340, -76.1031]}
+      center={[4.534, -76.1031]}
       zoom={12}
       maxZoom={20}
       boxZoom={false}
@@ -68,7 +68,12 @@ const PredioMap = (props) => {
       zoomControl={true}
     >
       <FitBoundsOnData geoData={allGeoData} />
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" maxZoom={20}/>
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://carto.com/">Carto</a>'
+        subdomains={["a", "b", "c", "d"]}
+        maxZoom={20}
+      />{" "}
       <>
         {terreno_geo && <LayerConsulta data={terreno_geo} fitOnLoad={true} />}
         {/* Recorrer todas las unidades y enviar SOLO la geometría a LayerConsulta */}
@@ -130,7 +135,7 @@ const PredioMap = (props) => {
           layers="cartografia:terrenos_view"
           format="image/png"
           transparent={true}
-          version="0.0.0" // O la versión que requiera tu servicio WMS
+          version="1.3.0" // O la versión que requiera tu servicio WMS
           maxZoom={23}
         />
       )}
