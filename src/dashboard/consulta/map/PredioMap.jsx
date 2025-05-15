@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -10,37 +9,26 @@ import "leaflet/dist/leaflet.css";
 import "./index.css";
 import LayerConsulta from "./LayerConsulta";
 import FitBoundsOnData from "./fitbounds";
-import { reprojectGeoJSON } from "../../../utils/reprojectGeoJson";
 
 const PredioMap = (props) => {
-  const terrenoOriginal = props.detailPredio?.terreno_geo?.[0]?.geometria;
-  const terreno_geo = terrenoOriginal
-    ? reprojectGeoJSON(terrenoOriginal)
-    : null;
-  const unidadesOriginal = props.detailPredio?.unidades_construccion_geo || [];
-  const unidadesReproyectadas = unidadesOriginal.map((unidad) => ({
-    ...unidad,
-    geometria: reprojectGeoJSON(unidad.geometria),
-  }));
-  // const selectedZona = props?.selectedFeature ? [props.selectedFeature] : [];
+  const terreno_geo = props.detailPredio?.terreno_geo;
+  const unidades_geo = props.detailPredio?.unidades_construccion_geo;
   const allFeatures = [];
 
-  if (terreno_geo?.[0]?.geometria) {
+  if (terreno_geo?.geometry) {
     allFeatures.push({ type: "Feature", ...terreno_geo });
   }
 
-  if (unidadesReproyectadas.length > 0) {
-    allFeatures.push(...unidadesReproyectadas.map((u) => u.geometria));
+  if (Array.isArray(unidades_geo?.features)) {
+    allFeatures.push(...unidades_geo.features);
   }
 
   const allGeoData = { type: "FeatureCollection", features: allFeatures };
 
-  const mapKey = useMemo(() => {
-    return JSON.stringify(props.detailPredio);
-  }, [props.detailPredio]);
+  const mapKey = JSON.stringify(allGeoData);
 
   const getStyleByPiso = (feature) => {
-    const piso = feature.unidadesOriginal?.planta_ubicacion;
+    const piso = feature.properties.planta_ubicacion;
     if (piso === 1) {
       return {
         color: "blue",
@@ -71,7 +59,7 @@ const PredioMap = (props) => {
       key={mapKey} // Forzar rerender cuando cambian geometrías
       center={[4.71173, -75.84197]}
       zoom={12}
-      maxZoom={23}
+      maxZoom={20}
       boxZoom={false}
       dragging={true}
       touchZoom={false}
@@ -80,25 +68,25 @@ const PredioMap = (props) => {
       zoomControl={true}
     >
       <FitBoundsOnData geoData={allGeoData} />
-      <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" maxZoom={20}/>
       <>
         {terreno_geo && <LayerConsulta data={terreno_geo} fitOnLoad={true} />}
-
         {/* Recorrer todas las unidades y enviar SOLO la geometría a LayerConsulta */}
-        {unidadesReproyectadas.map((unidad, index) =>
-          unidad.geometria ? (
-            <LayerConsulta
-              key={index}
-              data={unidad.geometria}
-              fitOnLoad={false}
-            />
-          ) : null
+        {unidades_geo?.features?.map(
+          (feature, index) =>
+            feature.geometry && (
+              <LayerConsulta
+                key={index}
+                data={feature.geometry}
+                fitOnLoad={false}
+              />
+            )
         )}
       </>
       <LayersControl position="bottomleft">
         <LayersControl.Overlay
           name="Terreno"
-          checked={false} // no activado por defecto
+          checked={true} // no activado por defecto
         >
           <WMSTileLayer
             url="http://localhost:8082/geoserver/cartografia/wms?service"
@@ -109,7 +97,7 @@ const PredioMap = (props) => {
             maxZoom={23}
           />
         </LayersControl.Overlay>
-        {unidadesReproyectadas.map((unidad, index) => (
+        {unidades_geo?.features?.map((unidad, index) => (
           <LayersControl.Overlay
             checked
             key={index}
@@ -119,11 +107,11 @@ const PredioMap = (props) => {
             }`}
           >
             <GeoJSON
-              data={unidad.geometria}
+              data={unidad.geometry}
               style={() => getStyleByPiso(unidad)}
               onEachFeature={(feature, layer) => {
                 const label =
-                  unidad.caracteristicas_unidadconstruccion?.identificador ||
+                  feature.caracteristicas_unidadconstruccion?.identificador ||
                   `Unidad ${index + 1}`;
                 layer.bindTooltip(label, {
                   permanent: false,
@@ -136,13 +124,13 @@ const PredioMap = (props) => {
           </LayersControl.Overlay>
         ))}
       </LayersControl>
-      {(unidadesReproyectadas?.length > 0 || terreno_geo) && (
+      {(unidades_geo?.length > 0 || terreno_geo) && (
         <WMSTileLayer
           url="http://localhost:8082/geoserver/cartografia/wms?service"
           layers="cartografia:terrenos_view"
           format="image/png"
           transparent={true}
-          version="1.3.0" // O la versión que requiera tu servicio WMS
+          version="0.0.0" // O la versión que requiera tu servicio WMS
           maxZoom={23}
         />
       )}
