@@ -57,7 +57,7 @@ const PredioMap = (props) => {
   return (
     <MapContainer
       key={mapKey} // Forzar rerender cuando cambian geometrías
-      center={[4.71173, -75.84197]}
+      center={[4.5340, -76.1031]}
       zoom={12}
       maxZoom={20}
       boxZoom={false}
