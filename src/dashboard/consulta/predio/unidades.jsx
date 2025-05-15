@@ -31,7 +31,7 @@ export const Unidades = ({ data }) => {
               </tr>
             ) : (
               data.map((unidad, index) => {
-                const item = unidad.caracteristicas_unidadconstruccion;
+                const item = unidad.properties?.caracteristicas_unidadconstruccion || {};
                 const isLast = index === data.length - 1;
                 return (
                   <tr key={index} className="hover:bg-gray-50">

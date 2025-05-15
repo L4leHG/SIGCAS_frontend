@@ -9,7 +9,9 @@ export default function Tablas({ data }) {
   const avaluos = data?.avaluo;
   const interesados = data?.interesado;
   const terrenos = data?.terreno_alfa;
-  const unidades = data?.unidades_construccion_geo;
+  const unidades = Array.isArray(data?.unidades_construccion_geo?.features)
+    ? data.unidades_construccion_geo.features
+    : [];
 
   return (
     <>
