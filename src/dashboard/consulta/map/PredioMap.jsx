@@ -94,12 +94,13 @@ const PredioMap = (props) => {
           checked={true} // no activado por defecto
         >
           <WMSTileLayer
-            url="http://localhost:8082/geoserver/cartografia/wms?service"
+            url="http://localhost:8082/geoserver/cartografia/wms"
             layers="cartografia:terrenos_view"
             format="image/png"
             transparent={true}
             version="1.3.0"
             maxZoom={23}
+            zIndex={200}  // 🔥 fuerza que esté "debajo" de otros
           />
         </LayersControl.Overlay>
         {unidades_geo?.features?.map((unidad, index) => (
@@ -131,8 +132,8 @@ const PredioMap = (props) => {
       </LayersControl>
       {(unidades_geo?.length > 0 || terreno_geo) && (
         <WMSTileLayer
-          url="http://localhost:8082/geoserver/cartografia/wms?service"
-          layers="cartografia:terrenos_view"
+          url="http://localhost:8082/geoserver/cartografia/wms"
+          layers="cartografia:unidad_view"
           format="image/png"
           transparent={true}
           version="1.3.0" // O la versión que requiera tu servicio WMS
